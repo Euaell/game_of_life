@@ -7,6 +7,8 @@ interface GameControlsProps {
   onStop: () => void;
   onReset: () => void;
   onRandomize: () => void;
+  isStable: boolean;
+  stableGeneration: number | null;
 }
 
 const GameControls: React.FC<GameControlsProps> = ({
@@ -14,7 +16,9 @@ const GameControls: React.FC<GameControlsProps> = ({
   onStart,
   onStop,
   onReset,
-  onRandomize
+  onRandomize,
+  isStable,
+  stableGeneration
 }) => {
   return (
     <div className="game-controls">
@@ -44,10 +48,12 @@ const GameControls: React.FC<GameControlsProps> = ({
         </button>
       </div>
       
-      <div className="instructions">
-        {isRunning 
-          ? 'Game is running! Click Stop to make changes.' 
-          : 'Click cells to toggle them alive/dead, then click Start to begin simulation.'
+      <div className={`instructions ${isStable ? 'stable' : ''}`}>
+        {isStable && stableGeneration !== null 
+          ? `Simulation reached a stable state after ${stableGeneration} generations.`
+          : isRunning 
+            ? 'Game is running! Click Stop to make changes.' 
+            : 'Click cells to toggle them alive/dead, then click Start to begin simulation.'
         }
       </div>
     </div>

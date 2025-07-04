@@ -13,7 +13,10 @@ const App: React.FC = () => {
   const [grid, setGrid] = useState<GameGrid>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [generation, setGeneration] = useState(0);
-
+  const [isStable, setIsStable] = useState(false);
+  const [stableGeneration, setStableGeneration] = useState<number | null>(null);
+  const [population, setPopulation] = useState(0);
+  
   // Initialize grid with given dimensions
   const initializeGrid = useCallback((width: number, height: number) => {
     const newGrid: GameGrid = Array(height)
@@ -21,12 +24,35 @@ const App: React.FC = () => {
       .map(() => Array(width).fill(false));
     setGrid(newGrid);
     setGeneration(0);
+    setPopulation(0);
   }, []);
 
   // Initialize grid when dimensions change
   useEffect(() => {
     initializeGrid(gridDimensions.width, gridDimensions.height);
+    setIsStable(false);
+    setStableGeneration(null);
   }, [gridDimensions, initializeGrid]);
+
+  // Calculate population whenever grid changes
+  useEffect(() => {
+    if (grid.length > 0) {
+      const newPopulation = grid.flat().filter(cell => cell).length;
+      setPopulation(newPopulation);
+    }
+  }, [grid]);
+
+  // Helper function to compare two grids for equality
+  const gridsAreEqual = useCallback((grid1: GameGrid, grid2: GameGrid): boolean => {
+    if (grid1.length !== grid2.length) return false;
+    for (let y = 0; y < grid1.length; y++) {
+      if (grid1[y].length !== grid2[y].length) return false;
+      for (let x = 0; x < grid1[y].length; x++) {
+        if (grid1[y][x] !== grid2[y][x]) return false;
+      }
+    }
+    return true;
+  }, []);
 
   // Count live neighbors for a cell
   const countLiveNeighbors = useCallback((grid: GameGrid, x: number, y: number): number => {
@@ -70,10 +96,17 @@ const App: React.FC = () => {
         }
       }
       
+      // Check if the grid has reached a stable state
+      if (gridsAreEqual(currentGrid, newGrid)) {
+        setIsRunning(false); // Stop the simulation
+        setIsStable(true);
+        setStableGeneration(generation + 1);
+      }
+      
       return newGrid;
     });
     setGeneration(prev => prev + 1);
-  }, [gridDimensions, countLiveNeighbors]);
+  }, [gridDimensions, countLiveNeighbors, gridsAreEqual, generation]);
 
   // Game loop
   useEffect(() => {
@@ -95,6 +128,11 @@ const App: React.FC = () => {
       newGrid[y][x] = !newGrid[y][x];
       return newGrid;
     });
+    
+    // Reset generation counter and stability state when user edits the grid
+    setGeneration(0);
+    setIsStable(false);
+    setStableGeneration(null);
   };
 
   // Handle dimension modal submission
@@ -104,10 +142,19 @@ const App: React.FC = () => {
   };
 
   // Control functions
-  const handleStart = () => setIsRunning(true);
+  const handleStart = () => {
+    if(isStable) {
+      handleReset();
+    }
+    setIsRunning(true);
+    setIsStable(false);
+    setStableGeneration(null);
+  };
   const handleStop = () => setIsRunning(false);
   const handleReset = () => {
     setIsRunning(false);
+    setIsStable(false);
+    setStableGeneration(null);
     initializeGrid(gridDimensions.width, gridDimensions.height);
   };
   const handleRandomize = () => {
@@ -120,6 +167,8 @@ const App: React.FC = () => {
       return newGrid;
     });
     setGeneration(0);
+    setIsStable(false);
+    setStableGeneration(null);
   };
 
   return (
@@ -132,17 +181,23 @@ const App: React.FC = () => {
       )}
       
       <div className="game-container">
-        <h1>Conway's Game of Life</h1>
+        <h1>Game of Life</h1>
         
         <div className="game-info">
-          <span>Generation: {generation}</span>
-          <span>Grid: {gridDimensions.width} × {gridDimensions.height}</span>
-          <button 
-            className="btn btn-secondary" 
-            onClick={() => setShowModal(true)}
-          >
-            Change Dimensions
-          </button>
+          <div>
+            <span>Generation: {generation}</span>
+            <span>Population: {population}</span>
+          </div>
+          <div>
+            <span>Grid: {gridDimensions.width} x {gridDimensions.height}</span>
+          
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => setShowModal(true)}
+            >
+              Change Dimensions
+            </button>
+          </div>
         </div>
         
         <GameControls
@@ -151,6 +206,8 @@ const App: React.FC = () => {
           onStop={handleStop}
           onReset={handleReset}
           onRandomize={handleRandomize}
+          isStable={isStable}
+          stableGeneration={stableGeneration}
         />
         
         <Grid

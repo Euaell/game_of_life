@@ -1,12 +1,8 @@
-# Conway's Game of Life - React Web Version
+# Game of Life
 
-A beautiful, interactive implementation of Conway's Game of Life built with React and Vite. This cellular automaton demonstrates how simple rules can create complex, fascinating patterns.
+An implementation of Conway's Game of Life built with React and Vite. This cellular automaton demonstrates how simple rules can create complex, fascinating patterns.
 
-![Game of Life Demo](https://img.shields.io/badge/Game%20of%20Life-React-blue?style=flat-square&logo=react)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)
-
-## 🎮 Features
+## Features
 
 - **Interactive Grid**: Click cells to toggle them alive/dead before starting the simulation
 - **Customizable Dimensions**: Set grid size from 5x5 to 100x100 cells
@@ -20,14 +16,14 @@ A beautiful, interactive implementation of Conway's Game of Life built with Reac
 
 ### Prerequisites
 
-- Node.js 18+ or 20+
+- Node.js 20+
 - npm (comes with Node.js)
 
 ### Installation
 
 1. Clone the repository and navigate to the web version:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Euaell/game_of_life
 cd game_of_life/web_version
 ```
 
@@ -45,7 +41,7 @@ npm run dev
 
 ## 📖 How to Play
 
-1. **Set Dimensions**: When you first load the app, choose your grid size (minimum 5x5)
+1. **Set Dimensions**: When you first load the app, choose your grid size (minimum 5x5) (maximum 20x20)
 2. **Design Initial Pattern**: Click cells to toggle them alive (blue) or dead (white)
 3. **Start Simulation**: Click the "Start" button to begin the cellular automaton
 4. **Watch Evolution**: Observe how your pattern evolves according to the Game of Life rules
@@ -108,25 +104,6 @@ npm run build
 ```
 
 The build output will be in the `dist/` directory, ready for deployment to any static hosting service.
-
-### Using Docker
-
-A Dockerfile is provided for easy containerized deployment:
-
-```bash
-# Build the Docker image
-docker build -t game-of-life-web .
-
-# Run the container
-docker run -p 80:80 game-of-life-web
-```
-
-### Deploy to Popular Platforms
-
-- **Vercel**: Connect your GitHub repo to Vercel for automatic deployments
-- **Netlify**: Drag and drop the `dist/` folder to Netlify
-- **GitHub Pages**: Use the built-in Actions for automatic deployment
-- **Firebase Hosting**: Use `firebase deploy` after building
 
 ## 🎨 Customization
 
