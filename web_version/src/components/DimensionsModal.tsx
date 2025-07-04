@@ -26,6 +26,11 @@ const DimensionsModal: React.FC<DimensionsModalProps> = ({ onSubmit, onCancel })
       setError('Minimum size is 5x5');
       return;
     }
+
+    if (w > 20 || h > 20) {
+      setError('Maximum size is 20x20');
+      return;
+    }
     
     if (w > 100 || h > 100) {
       setError('Maximum size is 100x100');
@@ -51,7 +56,7 @@ const DimensionsModal: React.FC<DimensionsModalProps> = ({ onSubmit, onCancel })
                 setError('');
               }}
               min="5"
-              max="100"
+              max="20"
               required
             />
           </div>
@@ -67,7 +72,7 @@ const DimensionsModal: React.FC<DimensionsModalProps> = ({ onSubmit, onCancel })
                 setError('');
               }}
               min="5"
-              max="100"
+              max="20"
               required
             />
           </div>

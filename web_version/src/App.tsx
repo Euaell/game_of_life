@@ -29,7 +29,7 @@ const App: React.FC = () => {
   }, [gridDimensions, initializeGrid]);
 
   // Count live neighbors for a cell
-  const countLiveNeighbors = (grid: GameGrid, x: number, y: number): number => {
+  const countLiveNeighbors = useCallback((grid: GameGrid, x: number, y: number): number => {
     let count = 0;
     const { width, height } = gridDimensions;
     
@@ -40,7 +40,7 @@ const App: React.FC = () => {
       }
     }
     return count;
-  };
+  }, [gridDimensions]);
 
   // Update grid according to Game of Life rules
   const updateGrid = useCallback(() => {
