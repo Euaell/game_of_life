@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+.game-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 95vw;
+  max-height: 95vh;
+  overflow: auto;
+}
+
+.game-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 2.5em;
+  font-weight: 300;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.game-info span {
+  font-weight: 600;
+}
+
+/* Button Styles */
+.btn {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-primary.active {
+  background: #dc3545;
+}
+
+.btn-primary.active:hover {
+  background: #c82333;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
